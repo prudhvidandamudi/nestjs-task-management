@@ -1,20 +1,20 @@
 import { PipeTransform, NotAcceptableException } from '@nestjs/common';
-import { TaskStatus } from '../task.model';
+import { TaskStatus } from '../task-status.enum';
 
 export class TaskStatusValidation implements PipeTransform {
   transform(value: any, metadata: import('@nestjs/common').ArgumentMetadata) {
     if (!this.isValidStatus(value)) {
       throw new NotAcceptableException(`${value} is invalid`);
     }
+    return value;
   }
 
   private isValidStatus(value: string): boolean {
-    for (let status in TaskStatus) {
-      if (status === value) {
-        return true;
-      } else {
-        return false;
-      }
+    console.log(value);
+    if ((<any>Object).values(TaskStatus).includes(value)) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
